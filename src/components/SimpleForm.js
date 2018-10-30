@@ -1,7 +1,6 @@
 import React , { Component } from 'react';
-import { View } from 'react-native';
 import { Container, Item, Input, Header, Body, Content, Title, Button, Text } from 'native-base';
-import { Field,reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 
 const validate = values => {
   const error= {};

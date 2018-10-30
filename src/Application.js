@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {createStore} from 'redux';
-import {Provider} from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+
 import SimpleForm from './components/SimpleForm.js';
 import allReducers from './reducers/index.js';
 

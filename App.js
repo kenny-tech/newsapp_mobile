@@ -1,17 +1,22 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import Application from './src/Application.js';
 import allReducers from './src/reducers/index.js';
-import {createStore} from 'redux';
-import {Provider} from 'react-redux';
-import { TextInput, TouchableOpacity } from 'react-native';
+import { createStore, compose } from 'redux';
+import { Provider } from 'react-redux';
 
-const store = createStore(allReducers);
+const store = createStore(
+  allReducers,
+  compose(
+      window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
+  )  
+);
 
 export default class App extends React.Component {
   render() {
     return (
-      <Application />
+      <Provider store={store}>
+        <Application />
+      </Provider>
     );
   }
 }

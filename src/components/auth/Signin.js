@@ -5,29 +5,29 @@ import { Field, reduxForm } from 'redux-form';
 const validate = values => {
   const error= {};
   error.email= '';
-  error.name= '';
-  var ema = values.email;
-  var nm = values.name;
+  error.password= '';
+  var email = values.email;
+  var password = values.password;
 
   if(values.email === undefined){
-    ema = '';
+    email = '';
   }
-  if(values.name === undefined){
-    nm = '';
+  if(values.password === undefined){
+    password = '';
   }
-  if(ema.length < 8 && ema !== ''){
+  if(email.length < 8 && email !== ''){
     error.email= 'too short';
   }
-  if(!ema.includes('@') && ema !== ''){
+  if(!email.includes('@') && email !== ''){
     error.email= '@ not included';
   }
-  if(nm.length > 8){
+  if(password.length > 8){
     error.name= 'max 8 characters';
   }
   return error;
 };
 
-class SimpleForm extends Component {
+class Signin extends Component {
   constructor(props){
     super(props);
     this.state={
@@ -43,7 +43,7 @@ class SimpleForm extends Component {
     }
     return( 
       <Item error= {hasError}>
-        <Input {...input}/>
+        <Input {...input} placeholder={label} type={type}/>
         {hasError ? <Text>{error}</Text> : <Text />}
       </Item>
     )
@@ -55,15 +55,17 @@ class SimpleForm extends Component {
       <Container>
         <Header>
           <Body>
-            <Title>Redux Form</Title>
+            <Title>Sign In</Title>
           </Body>
         </Header>
         <Content padder>
-          <Field name="email" component={this.renderInput} />
-          <Field name="name" component={this.renderInput} />
+          <Field name="email" type="email" component={this.renderInput} label="Email"/>
+          <Field name="password" type="password" component={this.renderInput} label="Password"/>
           <Button block primary onPress= {reset}>
             <Text>Submit</Text>
           </Button>
+          <Text></Text>
+          <Text>Don't have any account yet? Register</Text>
         </Content>
       </Container>
     )
@@ -71,6 +73,6 @@ class SimpleForm extends Component {
 }
 
 export default reduxForm({
-  form: 'test',
+  form: 'signin',
   validate
-})(SimpleForm)
+})(Signin)

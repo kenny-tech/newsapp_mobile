@@ -1,78 +1,110 @@
-import React , { Component } from 'react';
-import { Container, Item, Input, Header, Body, Content, Title, Button, Text } from 'native-base';
+import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import {
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
+  } from 'react-native'
 
-const validate = values => {
-  const error= {};
-  error.email= '';
-  error.password= '';
-  var email = values.email;
-  var password = values.password;
-
-  if(values.email === undefined){
-    email = '';
-  }
-  if(values.password === undefined){
-    password = '';
-  }
-  if(email.length < 8 && email !== ''){
-    error.email= 'too short';
-  }
-  if(!email.includes('@') && email !== ''){
-    error.email= '@ not included';
-  }
-  if(password.length > 8){
-    error.name= 'max 8 characters';
-  }
-  return error;
-};
+import * as actions from '../../actions';
 
 class Signin extends Component {
-  constructor(props){
-    super(props);
-    this.state={
-      isReady: false
-    };
-    this.renderInput = this.renderInput.bind(this);
-  }
-  
-  renderInput({ input, label, type, meta: { touched, error, warning } }){
-    var hasError= false;
-    if(error !== undefined){
-      hasError= true;
+
+    handleFormSubmit(formProps) {
+        this.props.signinUser(formProps);
     }
-    return( 
-      <Item error= {hasError}>
-        <Input {...input} placeholder={label} type={type}/>
-        {hasError ? <Text>{error}</Text> : <Text />}
-      </Item>
-    )
-  }
-  render(){
-    const { handleSubmit, reset } = this.props;
+
+    renderField = ({ input, label, type, className,  meta: { touched, error, warning } }) => (
+        <View>
+          <Text>{label}</Text>
+          <View>
+            <TextInput {...input} placeholder={label} type={type} className={className}/>
+            {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+          </View>
+        </View>
+    );
+
+    renderError() {
+        if (this.props.errorMessage) {
+            return (
+                <View>
+                    <Text>Oops! {this.props.errorMessage}</Text>
+                </View>
+            );
+        }
+    }
     
-    return (
-      <Container>
-        <Header>
-          <Body>
-            <Title>Sign In</Title>
-          </Body>
-        </Header>
-        <Content padder>
-          <Field name="email" type="email" component={this.renderInput} label="Email"/>
-          <Field name="password" type="password" component={this.renderInput} label="Password"/>
-          <Button block primary onPress= {reset}>
-            <Text>Submit</Text>
-          </Button>
-          <Text></Text>
-          <Text>Don't have any account yet? Register</Text>
-        </Content>
-      </Container>
-    )
-  }
+    render() {
+        const { handleSubmit, submitting } = this.props;
+
+        return (
+            <View>
+                <Text>Sign In</Text>
+                    <Field 
+                        name="email" 
+                        type="email" 
+                        component={this.renderField} 
+                        label="Email"/>
+                    <Field 
+                        name="password" 
+                        type="password" 
+                        component={this.renderField} 
+                        label="Password"/>
+                {this.renderError()}
+                <TouchableOpacity onPress={handleSubmit(this.handleFormSubmit.bind(this))}>
+                    <Text style={styles.button}>Submit</Text>
+                </TouchableOpacity>
+          </View>
+        );
+    }
+}
+
+const validate = values => {
+    const errors = {};
+
+    if (!values.email) {
+        errors.email = 'Please enter an email';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        errors.email = 'Invalid email address';
+    }
+
+    if (!values.password) {
+        errors.password = 'Please enter a password';
+    }
+
+    return errors;
+};
+
+const mapStateToProps = (state) => {
+    return { errorMessage: state.auth.error }
 }
 
 export default reduxForm({
-  form: 'signin',
-  validate
-})(Signin)
+    form: 'signin',
+    validate
+})(connect(mapStateToProps, actions)(Signin));
+
+const styles = StyleSheet.create({
+    button: {
+      backgroundColor: 'blue',
+      color: 'white',
+      height: 30,
+      lineHeight: 30,
+      marginTop: 10,
+      textAlign: 'center',
+      width: 250
+    },
+    container: {
+  
+    },
+    input: {
+      borderColor: 'black',
+      borderWidth: 1,
+      height: 37,
+      width: 250
+    }
+  })
+  

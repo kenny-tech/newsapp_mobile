@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { createStore, compose } from 'redux';
 import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import reduxThunk from 'redux-thunk';
+
 
 import Signin from './components/auth/Signin.js';
 import rootReducer from './reducers';
@@ -8,7 +10,8 @@ import rootReducer from './reducers';
 const store = createStore(
   rootReducer,
   compose(
-      window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
+    applyMiddleware(reduxThunk),
+    window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
   )  
 );
 

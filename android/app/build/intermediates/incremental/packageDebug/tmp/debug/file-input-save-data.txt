@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Sat Oct 27 18:54:04 WAT 2018
+#Wed Nov 21 23:25:15 WAT 2018
 5.base=/Users/kenny/workspace/my-project/newsapp_mobile/android/app/build/intermediates/transforms/dexMerger/debug/0
 22.path=lib/armeabi-v7a/libicu_common.so
 32.set=NATIVE_RESOURCE

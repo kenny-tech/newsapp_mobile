@@ -7,22 +7,24 @@ import {
     FETCH_NEWS_ITEMS
 } from './types';
 
-const ROOT_URL = 'http://localhost:3090';
+const ROOT_URL = 'http://127.0.0.1:3090';
 const NEWS_ITEMS = 'https://newsapi.org/v2/top-headlines?' +
           'country=us&' +
-          'apiKey=20ef60a323ed45269c4bc228c6d75956';
+          'apiKey=20ef60a323ed45269c4bc228c6d75956';          
+
+// var config = {
+//         Accept: 'application/json',
+//         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+//     };
 
 export const signinUser = ({ email, password }) => {
     return (dispatch) => {
         // submit email/password to the server
         axios.post(`${ROOT_URL}/signin`, { email, password })
             .then(response => {
-
-
                 // - save the jwt token
                 localStorage.setItem('token', response.data.token);
-                console.log('got here');
-
+                console.log('Welcome');
                 // if request is good...
                 // - update state to indicate user is authenticated
                 dispatch({ type: AUTH_USER });
@@ -36,18 +38,26 @@ export const signinUser = ({ email, password }) => {
             });
     };
 };
-
+  
 export const signupUser = ({ email, password }) => {
     return (dispatch) => {
         // submit email/password to the server
         axios.post(`${ROOT_URL}/signup`, { email, password })
             .then(response => {
-                dispatch({ type: AUTH_USER });
+                // - save the jwt token
                 localStorage.setItem('token', response.data.token);
+                // if request is good...
+                // - update state to indicate user is authenticated
+                console.log('Success');
+                dispatch({ type: AUTH_USER });
+
+                // - redirect to the route '/feature'
                 // History.push('/news');
-            })
-            .catch(err => {
-                dispatch(authError(err.response.data.error));
+            }).catch(() => {
+                // if request is bad...
+                // - show an error to the user
+                console.log('Failed');
+                dispatch(authError('Unable to submit data'));
             });
     };
 };

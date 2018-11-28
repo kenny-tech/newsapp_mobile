@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import * as actions from '../../actions';
 import { connect } from 'react-redux';
+import {
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
+  } from 'react-native'
+
+import * as actions from '../../actions';
 
 class Signup extends Component {
 
@@ -10,21 +18,21 @@ class Signup extends Component {
     }
 
     renderField = ({ input, label, type, className,  meta: { touched, error, warning } }) => (
-        <div>
-          <label>{label}</label>
-          <div>
-            <input {...input} placeholder={label} type={type} className={className}/>
-            {touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))}
-          </div>
-        </div>
+        <View>
+          <Text>{label}</Text>
+          <View>
+            <TextInput {...input} placeholder={label} type={type} className={className}/>
+            {touched && ((error && <Text style={styles.error}>{error}</Text>) || (warning && <Text style={styles.error}>{warning}</Text>))}
+          </View>
+        </View>
     );
 
     renderError() {
         if (this.props.errorMessage) {
             return (
-                <div className="alert alert-danger">
-                    Oops! {this.props.errorMessage}
-                </div>
+                <View>
+                    <Text style={styles.error}>Oops! {this.props.errorMessage}</Text>
+                </View>
             );
         }
     }
@@ -33,35 +41,28 @@ class Signup extends Component {
         const { handleSubmit, submitting } = this.props;
 
         return (
-            <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-                <h3>Sign Up</h3>
-                <fieldset className="form-group">
-                    <Field 
-                        className="form-control"
-                        name="email" 
-                        type="email" 
-                        component={this.renderField} 
-                        label="Email"/>
-                </fieldset>
-                <fieldset className="form-group">
-                    <Field 
-                        className="form-control"
-                        name="password" 
-                        type="password" 
-                        component={this.renderField} 
-                        label="Password"/>
-                </fieldset>
-                <fieldset className="form-group">
-                    <Field
-                        className="form-control" 
-                        name="passwordConfirmation" 
-                        type="password" 
-                        component={this.renderField} 
-                        label="Password Confirmation"/>
-                </fieldset>
+            <View>
+                <Text>Sign Up</Text>
+                <Field 
+                    name="email" 
+                    type="email" 
+                    component={this.renderField} 
+                    label="Email"/>
+                <Field 
+                    name="password" 
+                    type="password" 
+                    component={this.renderField} 
+                    label="Password"/>
+                <Field
+                    name="passwordConfirmation" 
+                    type="password" 
+                    component={this.renderField} 
+                    label="Password Confirmation"/>
                 {this.renderError()}
-                <button type="submit" className="btn btn-primary" disabled={submitting}>Sign Up</button>
-          </form>
+                <TouchableOpacity onPress={handleSubmit(this.handleFormSubmit.bind(this))}>
+                    <Text style={styles.button}>Submit</Text>
+                </TouchableOpacity>
+            </View>
         );
     }
 }
@@ -98,3 +99,27 @@ export default reduxForm({
     form: 'signup',
     validate
 })(connect(mapStateToProps, actions)(Signup));
+
+const styles = StyleSheet.create({
+    button: {
+      backgroundColor: 'blue',
+      color: 'white',
+      height: 30,
+      lineHeight: 30,
+      marginTop: 10,
+      textAlign: 'center',
+      width: 250
+    },
+    container: {
+  
+    },
+    input: {
+      borderColor: 'black',
+      borderWidth: 1,
+      height: 37,
+      width: 250
+    },
+    error: {
+        color: 'red'
+    }
+})

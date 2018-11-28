@@ -4,7 +4,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import reduxThunk from 'redux-thunk';
 
 
-import Signin from './components/auth/Signin.js';
+import Signup from './components/auth/Signup';
 import rootReducer from './reducers';
 
 const store = createStore(
@@ -19,7 +19,7 @@ export default class Application extends Component{
   render(){
     return(
       <Provider store={store}>
-        <Signin />
+        <Signup />
       </Provider>
     )
   }

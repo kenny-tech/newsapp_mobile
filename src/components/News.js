@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {
+    Text,
+    Image,
+    View
+  } from 'react-native'
 
 import * as actions from '../actions';
 
@@ -12,30 +17,28 @@ class News extends Component {
     renderFeature() {
         return this.props.news.map(newsItem => {
             return (
-                <div class="card">
-                    <img class="card-img-top" src={newsItem.urlToImage} alt={newsItem.title} style={{ width: '100%' }} />
-                    <div class="card-body">
-                    <h4 class="card-title">{newsItem.title}</h4>
-                    <p class="card-text">{newsItem.content}</p>
-                    <p align="center"><a href={newsItem.url} target="_blank">Read More</a></p>
-                    </div>
-                </div>
+                <View>
+                    <Image source={newsItem.urlToImage} key={newsItem.urlToImage}/>
+                    <Text key={newsItem.title}>{newsItem.title}</Text>
+                    <Text key={newsItem.content}>{newsItem.content}</Text>
+                </View>
             )
         })
     }
 
     render() {
         if (!this.props.news) {
-            return <div>Loading...</div>;
+            return (
+                <View>
+                    <Text>Loading...</Text>
+                </View>
+            );
         }
 
         return (
-            <div>
-                <h1 align="center">News</h1>
-                <ul>
-                    {this.renderFeature()}
-                </ul>
-            </div>
+            <View>
+                {this.renderFeature()}
+            </View>
         );
     }
 }

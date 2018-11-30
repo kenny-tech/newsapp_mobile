@@ -76,9 +76,7 @@ export const signoutUser = () => {
 
 export const fetchNews = () => {
     return (dispatch) => {
-        axios.get(NEWS_ITEMS, {
-            headers: { authorization: localStorage.getItem('token') }
-        })
+        axios.get(NEWS_ITEMS)
         .then(response => {
             dispatch({
                 type: FETCH_NEWS_ITEMS,

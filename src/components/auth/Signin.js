@@ -22,7 +22,7 @@ class Signin extends Component {
           <Text>{label}</Text>
           <View>
             <TextInput {...input} placeholder={label} type={type} className={className}/>
-            {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+            {touched && ((error && <Text style={styles.error}>{error}</Text>) || (warning && <Text style={styles.error}>{warning}</Text>))}
           </View>
         </View>
     );
@@ -31,7 +31,7 @@ class Signin extends Component {
         if (this.props.errorMessage) {
             return (
                 <View>
-                    <Text>Oops! {this.props.errorMessage}</Text>
+                    <Text style={styles.error}>Oops! {this.props.errorMessage}</Text>
                 </View>
             );
         }
@@ -57,6 +57,7 @@ class Signin extends Component {
                 <TouchableOpacity onPress={handleSubmit(this.handleFormSubmit.bind(this))}>
                     <Text style={styles.button}>Submit</Text>
                 </TouchableOpacity>
+                <Text>Don't have an account yet? Register</Text>
           </View>
         );
     }
@@ -105,6 +106,9 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       height: 37,
       width: 250
+    },
+    error: {
+        color: 'red'
     }
   })
   

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    Text,
     Image,
-    View
-  } from 'react-native'
+    View,
+    StyleSheet
+  } from 'react-native';
+import { Container, Header, Content, List, ListItem, Text } from 'native-base';
+
 
 import * as actions from '../actions';
 
@@ -17,10 +19,8 @@ class News extends Component {
     renderFeature() {
         return this.props.news.map(newsItem => {
             return (
-                <View>
-                    <Image source={newsItem.urlToImage} key={newsItem.urlToImage}/>
+                <View style={styles.container}>
                     <Text key={newsItem.title}>{newsItem.title}</Text>
-                    <Text key={newsItem.content}>{newsItem.content}</Text>
                 </View>
             )
         })
@@ -48,3 +48,14 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, actions)(News);
+
+const styles = StyleSheet.create({
+    container: {
+        margin: 5,
+    },
+    newsImage: {
+      width: "100%",
+      height: 200
+    }
+  });
+  

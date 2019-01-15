@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    Image,
     View,
-    StyleSheet
+    StyleSheet,
+    Linking,
+    TouchableOpacity
   } from 'react-native';
-  import { Container, Header, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
-
+import { Container, Header, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
 
 import * as actions from '../actions';
 
@@ -41,9 +41,11 @@ class News extends Component {
                                 <Text note numberOfLines={1}>{newsItem.description}</Text>
                             </Body>
                             <Right>
-                                <Button transparent>
-                                <Text>View</Text>
-                                </Button>
+                                <TouchableOpacity onPress={() => Linking.openURL(newsItem.url)}>
+                                    <Button transparent>
+                                        <Text onPress={() => Linking.openURL(newsItem.url)}>View</Text>
+                                    </Button>
+                                </TouchableOpacity>
                             </Right>
                             </ListItem>
                         </List>)

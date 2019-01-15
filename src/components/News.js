@@ -5,7 +5,7 @@ import {
     View,
     StyleSheet
   } from 'react-native';
-import { Container, Header, Content, List, ListItem, Text } from 'native-base';
+  import { Container, Header, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
 
 
 import * as actions from '../actions';
@@ -14,16 +14,6 @@ class News extends Component {
 
     componentWillMount() {
         this.props.fetchNews();
-    }
-
-    renderFeature() {
-        return this.props.news.map(newsItem => {
-            return (
-                <View style={styles.container}>
-                    <Text key={newsItem.title}>{newsItem.title}</Text>
-                </View>
-            )
-        })
     }
 
     render() {
@@ -36,9 +26,31 @@ class News extends Component {
         }
 
         return (
-            <View>
-                {this.renderFeature()}
-            </View>
+            <Container>
+            <Header />
+                <Content>
+                {
+                        this.props.news.map(newsItem => {
+                        return (<List>
+                            <ListItem thumbnail>
+                            <Left>
+                                <Thumbnail square source={{ uri: newsItem.urlToImage }} />
+                            </Left>
+                            <Body>
+                                <Text>{newsItem.title}</Text>
+                                <Text note numberOfLines={1}>{newsItem.description}</Text>
+                            </Body>
+                            <Right>
+                                <Button transparent>
+                                <Text>View</Text>
+                                </Button>
+                            </Right>
+                            </ListItem>
+                        </List>)
+                    })
+                }
+                </Content>
+            </Container>
         );
     }
 }
